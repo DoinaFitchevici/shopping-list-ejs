@@ -1,0 +1,16 @@
+<%- include("../partials/head.ejs") %> 
+<%- include("../partials/header.ejs") %>
+<h1>Your Shopping List</h1>
+<% if (cart && cart.products.length > 0) { %>
+    <ul>
+        <% cart.products.forEach(item => { %>
+            <li><%= item.product.name %> - Quantity: <%= item.quantity %></li>
+        <% }) %>
+    </ul>
+<% } else { %>
+    <p>Your shopping cart is empty.</p>
+<% } %>
+<a href="/cart/new">
+  <button type="button">Add a new item</button>
+</a>
+<%- include("../partials/footer.ejs") %>
