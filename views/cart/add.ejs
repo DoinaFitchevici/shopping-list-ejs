@@ -1,0 +1,23 @@
+<%- include("../partials/head.ejs") %>
+<%- include("../partials/header.ejs") %>
+
+<h1>Add Item to Cart</h1>
+
+<form method="POST" action="/cart/add">
+  <div>
+    <label for="productId">Select Product:</label>
+    <select name="productId" id="productId" required>
+      <% products.forEach(product => { %>
+        <option value="<%= product._id %>"><%= product.name %> - $<%= product.price %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div>
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" id="quantity" min="1" required />
+  </div>
+  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+  <button type="submit">Add to Cart</button>
+</form>
+
+<%- include("../partials/footer.ejs") %>
