@@ -21,8 +21,4 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ProductSchema.statics.getAllProducts = function () {
-//   return this.find({});
-// };
-
 module.exports = mongoose.model("Product", ProductSchema);

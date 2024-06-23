@@ -2,14 +2,37 @@ const Product = require("../models/product");
 const ShoppingCart = require("../models/ShoppingCart");
 
 const getCart = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
+
   try {
-    const cart = await ShoppingCart.findOne({ user: req.user._id }).populate(
-      "products.product"
-    );
-    const products = await Product.find(); // Fetch products for dropdown
-    res.render("cart/index", { cart, products });
+    const cart = await ShoppingCart.findOne({ user: req.user._id })
+      .populate("products.product")
+      .lean();
+
+    if (cart) {
+      const totalProducts = cart.products.length;
+      const paginatedProducts = cart.products.slice(skip, skip + limit);
+      const totalPages = Math.ceil(totalProducts / limit);
+
+      res.render("cart/index", {
+        cart: { ...cart, products: paginatedProducts },
+        page,
+        totalPages,
+        successMessages: req.flash("success"),
+        errorMessages: req.flash("error"),
+      });
+    } else {
+      res.render("cart/index", {
+        cart: { products: [] },
+        page: 1,
+        totalPages: 1,
+        successMessages: req.flash("success"),
+        errorMessages: req.flash("error"),
+      });
+    }
   } catch (error) {
-    // res.status(500).send("Server Error");
     console.error("Error fetching shopping cart:", error);
     req.flash("error", "Error fetching shopping cart.");
     res.redirect("/");
@@ -44,7 +67,7 @@ const addToCart = async (req, res) => {
     }
     await cart.save();
     req.flash("info", "Product added to cart.");
-    res.redirect("/cart");
+    res.redirect("/cart?page=1");
   } catch (error) {
     //res.status(500).send("Server Error");
     console.error("Error adding to cart:", error);

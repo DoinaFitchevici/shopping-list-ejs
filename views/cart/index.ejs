@@ -3,17 +3,38 @@
 
 <h1>Your Shopping List</h1>
 
+<% if (successMessages && successMessages.length > 0) { %>
+  <div class="alert alert-success">
+    <% successMessages.forEach(function (msg) { %>
+      <p><%= msg %></p>
+    <% }); %>
+  </div>
+<% } %>
+
+<% if (errorMessages && errorMessages.length > 0) { %>
+  <div class="alert alert-danger">
+    <% errorMessages.forEach(function (msg) { %>
+      <p><%= msg %></p>
+    <% }); %>
+  </div>
+<% } %>
+
 <table id="shopping-list-table">
   <tr id="shopping-list-table-header">
     <th>Item</th>
     <th>Quantity</th>
+     <th>Mark Done</th>
+    <th>Action</th>
     <th></th>
   </tr>
   <% if (cart && cart.products.length > 0) { %>
     <% cart.products.forEach(item => { %>
       <tr>
-        <td><%= item.product.name %></td>
-        <td><%= item.quantity %></td>
+        <td class="<%= item.done ? 'strikethrough' : '' %>"><%= item.product.name %></td>
+        <td class="<%= item.done ? 'strikethrough' : '' %>"><%= item.quantity %></td>
+        <td>
+          <input type="checkbox" class="mark-done-checkbox" data-product-id="<%= item.product._id %>" <%= item.done ? 'checked' : '' %> />
+        </td>
         <td>
           <form method="POST" action="/cart/delete/<%= item.product._id %>" style="display: inline">
             <button type="submit">delete</button>
@@ -28,5 +49,19 @@
     </tr>
   <% } %>
 </table>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <% for(let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= page === i ? 'active' : '' %>">
+        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+      </li>
+    <% } %>
+  </ul>
+</nav>
+
 <a href="/cart/add" class="btn btn-primary">Add Item to Shopping List</a>
+
+
+
 <%- include("../partials/footer.ejs") %>

@@ -20,14 +20,29 @@
 <% } %>
 
 <% if (products.length > 0) { %>
-  <ul>
+ <table>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+    </tr>
     <% products.forEach(product => { %>
-      <li>
-        <%= product.name %> - $<%= product.price %>
-        <a href="/products/edit/<%= product._id %>">Edit</a>
-      </li>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.price %></td>
+        <td><a href="/products/edit/<%= product._id %>">Edit</a></td>
+      </tr>
     <% }) %>
-  </ul>
+  </table>
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <% for(let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= page === i ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
 <% } else { %>
   <p>No products found.</p>
 <% } %>

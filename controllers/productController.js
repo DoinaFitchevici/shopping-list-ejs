@@ -2,8 +2,17 @@ const Product = require("../models/product");
 
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.render("products/index", { products });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+
+    const products = await Product.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const totalProducts = await Product.countDocuments();
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    res.render("products/index", { products, page, totalPages });
   } catch (error) {
     res.status(500).send("Server Error");
   }
