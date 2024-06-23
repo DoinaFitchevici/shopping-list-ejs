@@ -204,6 +204,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // View engine setup
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // Middleware for parsing form data
 app.use(require("body-parser").urlencoded({ extended: true }));
@@ -277,7 +278,6 @@ app.get("/", (req, res) => {
 app.use("/sessions", require("./routes/sessionRoutes"));
 app.use("/products", require("./routes/productRoutes"));
 app.use("/cart", require("./routes/cartRoutes"));
-app.use("/stores", require("./routes/storeRoutes"));
 
 app.use((err, req, res, next) => {
   if (err.code === "EBADCSRFTOKEN") {

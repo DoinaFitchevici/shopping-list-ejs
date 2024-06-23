@@ -1,0 +1,37 @@
+<%- include("../partials/head.ejs") %>
+<%- include("../partials/header.ejs") %>
+
+<h1>Product List</h1>
+
+<% if (successMessages && successMessages.length > 0) { %>
+  <div class="alert alert-success">
+    <% successMessages.forEach(function (msg) { %>
+      <p><%= msg %></p>
+    <% }); %>
+  </div>
+<% } %>
+
+<% if (errorMessages && errorMessages.length > 0) { %>
+  <div class="alert alert-danger">
+    <% errorMessages.forEach(function (msg) { %>
+      <p><%= msg %></p>
+    <% }); %>
+  </div>
+<% } %>
+
+<% if (products.length > 0) { %>
+  <ul>
+    <% products.forEach(product => { %>
+      <li>
+        <%= product.name %> - $<%= product.price %>
+        <a href="/products/edit/<%= product._id %>">Edit</a>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>No products found.</p>
+<% } %>
+
+<a href="/products/new" class="btn btn-primary">Add New Product</a>
+
+<%- include("../partials/footer.ejs") %>

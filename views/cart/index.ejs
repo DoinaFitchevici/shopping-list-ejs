@@ -1,16 +1,32 @@
 <%- include("../partials/head.ejs") %> 
 <%- include("../partials/header.ejs") %>
+
 <h1>Your Shopping List</h1>
-<% if (cart && cart.products.length > 0) { %>
-    <ul>
-        <% cart.products.forEach(item => { %>
-            <li><%= item.product.name %> - Quantity: <%= item.quantity %></li>
-        <% }) %>
-    </ul>
-<% } else { %>
-    <p>Your shopping cart is empty.</p>
-<% } %>
-<a href="/cart/new">
-  <button type="button">Add a new item</button>
-</a>
+
+<table id="shopping-list-table">
+  <tr id="shopping-list-table-header">
+    <th>Item</th>
+    <th>Quantity</th>
+    <th></th>
+  </tr>
+  <% if (cart && cart.products.length > 0) { %>
+    <% cart.products.forEach(item => { %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td>
+          <form method="POST" action="/cart/delete/<%= item.product._id %>" style="display: inline">
+            <button type="submit">delete</button>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  <% } else { %>
+    <tr>
+      <td colspan="3">Your shopping cart is empty.</td>
+    </tr>
+  <% } %>
+</table>
+<a href="/cart/add" class="btn btn-primary">Add Item to Shopping List</a>
 <%- include("../partials/footer.ejs") %>
