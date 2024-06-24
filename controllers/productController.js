@@ -1,13 +1,32 @@
 const Product = require("../models/product");
 
 const getProducts = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/sessions/logon");
+  }
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 10;
 
-    const products = await Product.find()
+    let products = await Product.find()
       .skip((page - 1) * limit)
       .limit(limit);
+
+    if (req.query.sort === "name") {
+      products = products.sort((a, b) => {
+        if (a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) {
+          return -1;
+        }
+        if (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (req.query.sort === "pricelow") {
+      products = products.sort((a, b) => a.price - b.price);
+    } else if (req.query.sort === "pricehigh") {
+      products = products.sort((a, b) => b.price - a.price);
+    }
 
     const totalProducts = await Product.countDocuments();
     const totalPages = Math.ceil(totalProducts / limit);
@@ -19,10 +38,16 @@ const getProducts = async (req, res) => {
 };
 
 const newProductForm = (req, res) => {
+  if (!req.user) {
+    return res.redirect("/sessions/logon");
+  }
   res.render("products/new");
 };
 
 const addProduct = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/sessions/logon");
+  }
   try {
     const { name, price } = req.body;
     console.log("Form Data:", { name, price });
@@ -37,6 +62,9 @@ const addProduct = async (req, res) => {
 };
 
 const editProductForm = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/sessions/logon");
+  }
   try {
     const product = await Product.findById(req.params.id);
     res.render("products/edit", { product });
@@ -48,6 +76,9 @@ const editProductForm = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/sessions/logon");
+  }
   try {
     const { name, price } = req.body;
     await Product.findByIdAndUpdate(req.params.id, { name, price });
@@ -60,10 +91,32 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/sessions/logon");
+  }
+  const productId = req.params.productId;
+
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+    if (!deletedProduct) {
+      req.flash("error", "Product not found.");
+    } else {
+      req.flash("info", "Product deleted successfully.");
+    }
+    res.redirect("/products");
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    req.flash("error", "Could not delete product.");
+    res.redirect("/products");
+  }
+};
+
 module.exports = {
   getProducts,
   newProductForm,
   addProduct,
   editProductForm,
   updateProduct,
+  deleteProduct,
 };

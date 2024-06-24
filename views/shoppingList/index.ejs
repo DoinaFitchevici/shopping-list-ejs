@@ -1,7 +1,7 @@
 <%- include("../partials/head.ejs") %> 
 <%- include("../partials/header.ejs") %>
 
-<h1>Your Cart</h1>
+<h1>Your Shopping List</h1>
 
 <% if (successMessages && successMessages.length > 0) { %>
   <div class="alert alert-success">
@@ -20,17 +20,21 @@
 <% } %>
 
 <ul id="shopping-list" class="list-group">
-  <% if (cart && cart.products.length > 0) { %>
-    <% cart.products.forEach(item => { %>
+  <% if (shoppingList && shoppingList.products.length > 0) { %>
+    <% shoppingList.products.forEach(item => { %>
       <li class="list-group-item <%= item.done ? 'completedTodo' : '' %>">
         <div class="container">
           <div class="column">
-            <input type="checkbox" class="checkbox mark-done-checkbox" data-product-id="<%= item.product._id %>" <%= item.done ? 'checked' : '' %> />
-            <span><%= item.product.name %></span>
+            <% if (item.done) { %>
+              <strike><%= item.product.name %></strike>
+            <% } else { %>
+            <a href="/shoppingList/markItemDone/<%= item.product._id %>">Mark as done</a>
+              <span><%= item.product.name %></span>
+            <% } %>
             <span class="quantity">(<%= item.quantity %>)</span>
           </div>
           <div class="column">
-            <form method="POST" action="/cart/delete/<%= item.product._id %>" style="display: inline">
+            <form method="POST" action="/shoppingList/delete/<%= item.product._id %>" style="display: inline">
               <button type="submit" class="button">delete</button>
               <input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>
@@ -39,7 +43,7 @@
       </li>
     <% }) %>
   <% } else { %>
-    <li class="list-group-item">Your shopping cart is empty.</li>
+    <li class="list-group-item">Your shopping list is empty.</li>
   <% } %>
 </ul>
 
@@ -53,7 +57,7 @@
   </ul>
 </nav>
 
-<a href="/cart/add" class="button">Add Item to Shopping List</a>
+<a href="/shoppingList/add" class="button">Add Item to Shopping List</a>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -63,7 +67,7 @@
         const done = this.checked;
 
         try {
-          const response = await fetch(`/cart/mark-done/${productId}`, {
+          const response = await fetch(`/shoppingList/mark-done/${productId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

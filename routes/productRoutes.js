@@ -8,5 +8,6 @@ router.post("/add", productController.addProduct); // New route for adding a pro
 router.get("/new", productController.newProductForm); // New route to display the form
 router.get("/edit/:id", productController.editProductForm); // New route to display the edit form
 router.post("/update/:id", productController.updateProduct); // New route to handle the update
+router.post("/delete/:productId", productController.deleteProduct); // New route for deleting a product
 
 module.exports = router;

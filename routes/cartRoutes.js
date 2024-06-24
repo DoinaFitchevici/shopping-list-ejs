@@ -7,5 +7,6 @@ router.get("/", shoppingCartController.getCart);
 router.get("/add", shoppingCartController.getAddItemForm); // New route to display add item form
 router.post("/add", shoppingCartController.addToCart);
 router.post("/delete/:productId", shoppingCartController.deleteFromCart);
+router.post("/mark-done/:productId", shoppingCartController.markItemDone);
 
 module.exports = router;
