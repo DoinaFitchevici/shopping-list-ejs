@@ -1,9 +1,9 @@
 <%- include("../partials/head.ejs") %>
 <%- include("../partials/header.ejs") %>
 
-<h1>Add Item to Cart</h1>
+<h1>Add Item to Shopping List</h1>
 
-<form method="POST" action="/cart/add" class="form">
+<form method="POST" action="/shoppingList/add" class="form">
   <div>
     <label for="productId">Select Product:</label>
     <select name="productId" id="productId" required>
@@ -17,7 +17,7 @@
     <input type="number" name="quantity" id="quantity" min="1" required />
   </div>
   <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-  <button type="submit" class="button">Add to Cart</button>
+  <button type="submit" class="button">Add to Shopping List</button>
 </form>
 
 <%- include("../partials/footer.ejs") %>

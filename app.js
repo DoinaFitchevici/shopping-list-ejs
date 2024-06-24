@@ -278,6 +278,7 @@ app.get("/", (req, res) => {
 app.use("/sessions", require("./routes/sessionRoutes"));
 app.use("/products", require("./routes/productRoutes"));
 app.use("/cart", require("./routes/cartRoutes"));
+app.use("/shoppingList", require("./routes/shoppingListRoutes"));
 
 app.use((err, req, res, next) => {
   if (err.code === "EBADCSRFTOKEN") {

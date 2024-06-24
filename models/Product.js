@@ -12,6 +12,22 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please provide product price"],
     },
+    description: {
+      type: String,
+      maxlength: 255, // Limiting description length
+    },
+    isActive: {
+      type: Boolean,
+      default: true, // Default value for isActive
+    },
+    tags: {
+      type: [String], // Array of strings for product tags
+      default: [], // Default empty array
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now, // Default value set to current date/time
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
@@ -20,9 +36,5 @@ const ProductSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-// ProductSchema.statics.getAllProducts = function () {
-//   return this.find({});
-// };
 
 module.exports = mongoose.model("Product", ProductSchema);

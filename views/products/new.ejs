@@ -11,7 +11,7 @@
   </div>
 <% } %>
 
-<form method="POST" action="/products/add">
+<form method="POST" action="/products/add" class="form">
   <div>
     <label for="name">Product Name:</label>
     <input type="text" id="name" name="name" required />
@@ -22,7 +22,7 @@
   </div>
   <br />
   <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-  <button type="submit">Add Product</button>
+  <button type="submit" class="button">Add Product</button>
 </form>
 
 <%- include("../partials/footer.ejs") %>
