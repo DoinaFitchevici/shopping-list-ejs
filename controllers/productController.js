@@ -50,8 +50,13 @@ const addProduct = async (req, res) => {
   }
   try {
     const { name, price } = req.body;
-    console.log("Form Data:", { name, price });
-    await Product.create({ name, price, createdBy: req.user._id });
+    const formattedPrice = parseFloat(price).toFixed(2);
+    console.log("Form Data:", { name, formattedPrice });
+    await Product.create({
+      name,
+      price: formattedPrice,
+      createdBy: req.user._id,
+    });
     req.flash("success", "Product added successfully!");
     res.redirect("/products");
   } catch (error) {
