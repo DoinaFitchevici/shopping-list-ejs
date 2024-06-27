@@ -1,16 +1,11 @@
 /* General Styles */
 body {
-  font-weight: 200;
-  font-family: "Poppins", sans-serif;
   padding: 0.5rem;
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
-
-  background: linear-gradient(to left, #ded6d8, #ffe3e3);
+  font-size: 16px;
   color: rgb(33, 33, 33);
+  background-color: #ffe3e3;
   font-weight: 200;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -19,6 +14,54 @@ body {
 h1 {
   text-align: center;
   margin: 20px 0;
+}
+
+.navbar {
+  background-color: #ffe3e3;
+  color: black;
+  padding: 10px 0;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  color: black;
+  text-decoration: none;
+}
+
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-link {
+  color: black;
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: purple;
+  text-decoration: none;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
 }
 
 .alert {
@@ -51,14 +94,15 @@ h1 {
 
 .page-link {
   padding: 10px 15px;
-  border: 1px solid #dee2e6;
-  color: #007bff;
+  border: 1px solid #343637;
+  color: black;
+  border-radius: 5px;
   text-decoration: none;
 }
 
 .page-item.active .page-link {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #ded6d8;
+  color: black;
 }
 
 /* Form Styles */
@@ -71,16 +115,23 @@ form {
   margin: 20px auto;
 }
 
+.form-group {
+  display: block;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 10px;
+}
+
 input,
 select {
-  padding: 0 5px;
-  margin: 5px;
+  width: 100%;
+  padding: 10px;
   border: 1px solid #d5d9d9;
   border-radius: 8px;
   box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
-  font-size: 13px;
-  line-height: 29px;
-  vertical-align: middle;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
 button {
@@ -100,13 +151,24 @@ button {
 }
 
 button:hover {
-  background-color: #d3ffce;
+  background-color: #ded6d8;
 }
 
 button:focus {
   border-color: #6790bb;
   box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
   outline: 0;
+}
+
+/* Add to List Styles */
+.add-to-list {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.add-to-list a {
+  text-align: right;
 }
 
 /* List Styles */
@@ -125,60 +187,74 @@ button:focus {
   border: 1px solid #d5d9d9;
   border-radius: 8px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  padding: 10px;
   margin: 5px 0;
 }
 
-.completedTodo {
-  color: grey;
-  text-decoration: line-through;
+.empty-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  margin: 5px 0;
+  padding: 20px;
 }
-
-.checkbox {
-  width: 1.3em;
-  height: 1.3em;
-  background-color: white;
-  border-radius: 50%;
-  border: 1px solid #ddd;
-  appearance: none;
-  outline: none;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
 /* Container and Column Styles */
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
-.container .column {
+.item-info {
   display: flex;
   align-items: center;
+  margin: 0 20px;
 }
 
-.container .column .quantity {
+.item-info strike {
+  margin-left: 20px;
+}
+
+.item-info.marked-done .buttonIcon {
+  visibility: hidden;
+}
+
+.quantity {
   margin-left: 10px;
 }
-/* .container .column:first-child,
-.container .column:last-child {
-  flex-grow: 0;
-}
 
-.container .column:nth-child(2) {
-  flex-grow: 1;
+.delete-button {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-} */
+  justify-content: flex-end;
+  margin-right: 20px;
+}
 
 .buttonIcon {
   width: 16px;
   height: 16px;
   fill: #4d5353;
   transition: fill 0.3s ease;
-  display: flex;
+  margin-right: 20px;
+  margin-left: 10px;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
+}
+
+.footer {
+  font-weight: 100;
+  font-variant: normal;
+  background-color: #ffe3e3;
+  color: black;
+  text-align: center;
+  padding: 10px 0;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  margin-top: 20px;
 }

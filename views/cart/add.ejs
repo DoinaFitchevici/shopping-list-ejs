@@ -1,9 +1,12 @@
-<%- include("../partials/head.ejs") %>
+<%- include("../partials/head.ejs", { title: "Add Item to Cart" }) %>
 <%- include("../partials/header.ejs") %>
+<%- include("../partials/messages.ejs") %>
+
 
 <h1>Add Item to Cart</h1>
 
 <form method="POST" action="/cart/add" class="form">
+  <div class="form-group">
   <div>
     <label for="productId">Select Product:</label>
     <select name="productId" id="productId" required>
@@ -18,6 +21,7 @@
   </div>
   <input type="hidden" name="_csrf" value="<%= _csrf %>" />
   <button type="submit" class="button">Add to Cart</button>
+  </div>
 </form>
 
 <%- include("../partials/footer.ejs") %>

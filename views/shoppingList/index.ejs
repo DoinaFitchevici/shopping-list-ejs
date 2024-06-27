@@ -1,41 +1,32 @@
-<%- include("../partials/head.ejs") %> 
+<%- include("../partials/head.ejs", { title: "Your Shopping List" }) %>
 <%- include("../partials/header.ejs") %>
+<%- include("../partials/messages.ejs") %>
+
 
 <h1>Your Shopping List</h1>
-
-<% if (successMessages && successMessages.length > 0) { %>
-  <div class="alert alert-success">
-    <% successMessages.forEach(function (msg) { %>
-      <p><%= msg %></p>
-    <% }); %>
-  </div>
-<% } %>
-
-<% if (errorMessages && errorMessages.length > 0) { %>
-  <div class="alert alert-danger">
-    <% errorMessages.forEach(function (msg) { %>
-      <p><%= msg %></p>
-    <% }); %>
-  </div>
-<% } %>
-
+<div>
 <ul id="shopping-list" class="list-group">
+    <div class="add-to-list">
+<a href="/shoppingList/add"><button type="submit" class="button">Add Item to Shopping List</button></a>
+</div>
   <% if (shoppingList && shoppingList.products.length > 0) { %>
     <% shoppingList.products.forEach(item => { %>
-      <li class="list-group-item <%= item.done ? 'completedTodo' : '' %>">
+      <li class="list-group-item">
         <div class="container">
-          <div class="column">
+          <div class="item-info">
             <% if (item.done) { %>
               <strike><%= item.product.name %></strike>
             <% } else { %>
-            <a href="/shoppingList/markItemDone/<%= item.product._id %>">Mark as done</a>
+            <a href="/shoppingList/markItemDone/<%= item.product._id %>"><svg class="buttonIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 11l3 3L22 4l-1.41-1.41L12 12.17l-2.59-2.58L9 11z"/>
+                </svg></a>
               <span><%= item.product.name %></span>
             <% } %>
-            <span class="quantity">(<%= item.quantity %>)</span>
+             <span class="quantity">(<%= item.quantity %>)</span>
           </div>
-          <div class="column">
+          <div class="delete-button">
             <form method="POST" action="/shoppingList/delete/<%= item.product._id %>" style="display: inline">
-              <button type="submit" class="button">delete</button>
+              <button type="submit" class="button">Delete</button>
               <input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>
           </div>
@@ -43,9 +34,11 @@
       </li>
     <% }) %>
   <% } else { %>
-    <li class="list-group-item">Your shopping list is empty.</li>
+    <li class="empty-list">Your shopping list is empty.</li>
   <% } %>
 </ul>
+</div>
+
 
 <nav aria-label="Page navigation">
   <ul class="pagination">
@@ -56,42 +49,5 @@
     <% } %>
   </ul>
 </nav>
-
-<a href="/shoppingList/add" class="button">Add Item to Shopping List</a>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.mark-done-checkbox').forEach(checkbox => {
-      checkbox.addEventListener('change', async function () {
-        const productId = this.dataset.productId;
-        const done = this.checked;
-
-        try {
-          const response = await fetch(`/shoppingList/mark-done/${productId}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'CSRF-Token': '<%= _csrf %>'
-            },
-            body: JSON.stringify({ done })
-          });
-
-          if (!response.ok) {
-            console.error('Failed to mark item as done');
-          }
-
-          const row = this.closest('li');
-          if (done) {
-            row.classList.add('completedTodo');
-          } else {
-            row.classList.remove('completedTodo');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      });
-    });
-  });
-</script>
 
 <%- include("../partials/footer.ejs") %>

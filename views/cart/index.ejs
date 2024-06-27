@@ -1,37 +1,25 @@
-<%- include("../partials/head.ejs") %> 
+<%- include("../partials/head.ejs", { title: "Your Cart" }) %>
 <%- include("../partials/header.ejs") %>
+<%- include("../partials/messages.ejs") %>
+
 
 <h1>Your Cart</h1>
 
-<% if (successMessages && successMessages.length > 0) { %>
-  <div class="alert alert-success">
-    <% successMessages.forEach(function (msg) { %>
-      <p><%= msg %></p>
-    <% }); %>
-  </div>
-<% } %>
-
-<% if (errorMessages && errorMessages.length > 0) { %>
-  <div class="alert alert-danger">
-    <% errorMessages.forEach(function (msg) { %>
-      <p><%= msg %></p>
-    <% }); %>
-  </div>
-<% } %>
-
 <ul id="shopping-list" class="list-group">
+    <div class="add-to-list">
+<a href="/cart/add"><button type="submit" class="button" >Add Item to Cart</button></a>
+    </div>
   <% if (cart && cart.products.length > 0) { %>
     <% cart.products.forEach(item => { %>
-      <li class="list-group-item <%= item.done ? 'completedTodo' : '' %>">
+      <li class="list-group-item">
         <div class="container">
-          <div class="column">
-            <input type="checkbox" class="checkbox mark-done-checkbox" data-product-id="<%= item.product._id %>" <%= item.done ? 'checked' : '' %> />
+          <div class="item-info">
             <span><%= item.product.name %></span>
             <span class="quantity">(<%= item.quantity %>)</span>
           </div>
-          <div class="column">
+          <div class="delete-button">
             <form method="POST" action="/cart/delete/<%= item.product._id %>" style="display: inline">
-              <button type="submit" class="button">delete</button>
+              <button type="submit" class="button">Delete</button>
               <input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>
           </div>
@@ -39,7 +27,7 @@
       </li>
     <% }) %>
   <% } else { %>
-    <li class="list-group-item">Your shopping cart is empty.</li>
+    <li class="empty-list">Your cart is empty.</li>
   <% } %>
 </ul>
 
@@ -52,42 +40,5 @@
     <% } %>
   </ul>
 </nav>
-
-<a href="/cart/add" class="button">Add Item to Shopping List</a>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.mark-done-checkbox').forEach(checkbox => {
-      checkbox.addEventListener('change', async function () {
-        const productId = this.dataset.productId;
-        const done = this.checked;
-
-        try {
-          const response = await fetch(`/cart/mark-done/${productId}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'CSRF-Token': '<%= _csrf %>'
-            },
-            body: JSON.stringify({ done })
-          });
-
-          if (!response.ok) {
-            console.error('Failed to mark item as done');
-          }
-
-          const row = this.closest('li');
-          if (done) {
-            row.classList.add('completedTodo');
-          } else {
-            row.classList.remove('completedTodo');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      });
-    });
-  });
-</script>
 
 <%- include("../partials/footer.ejs") %>

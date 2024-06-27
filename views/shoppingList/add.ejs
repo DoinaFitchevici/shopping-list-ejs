@@ -1,23 +1,27 @@
-<%- include("../partials/head.ejs") %>
+<%- include("../partials/head.ejs", { title: "Add Item to Shopping List" }) %>
 <%- include("../partials/header.ejs") %>
+<%- include("../partials/messages.ejs") %>
+
 
 <h1>Add Item to Shopping List</h1>
 
 <form method="POST" action="/shoppingList/add" class="form">
-  <div>
+    <div class="form-group">
+    <div>
     <label for="productId">Select Product:</label>
     <select name="productId" id="productId" required>
       <% products.forEach(product => { %>
         <option value="<%= product._id %>"><%= product.name %> - $<%= product.price %></option>
       <% }) %>
     </select>
-  </div>
-  <div>
-    <label for="quantity">Quantity:</label>
-    <input type="number" name="quantity" id="quantity" min="1" required />
-  </div>
-  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-  <button type="submit" class="button">Add to Shopping List</button>
+    </div>
+    <div>
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" min="1" required />
+    </div>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+    <button type="submit" class="button">Add to Shopping List</button>
+    </div>
 </form>
 
 <%- include("../partials/footer.ejs") %>
