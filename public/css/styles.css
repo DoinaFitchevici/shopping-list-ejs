@@ -1,6 +1,5 @@
 /* General Styles */
 body {
-  padding: 0.5rem;
   font-size: 16px;
   color: rgb(33, 33, 33);
   background-color: #ffe3e3;
@@ -13,6 +12,41 @@ body {
   position: relative;
   padding-bottom: 100px;
   overflow-y: auto;
+}
+
+.landing-page {
+  background: url("/images/background-landing-page.jpg") no-repeat center center
+    fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 30%;
+  left: 20px;
+  gap: 10px;
+  transform: translateY(50%);
+}
+
+.button-landing-page {
+  padding: 10px 20px;
+  background-color: #ffe3e3;
+  color: black;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.button-landing-page:hover {
+  background-color: #45a049;
 }
 
 .footer {
@@ -107,6 +141,11 @@ h1 {
   font-size: 16px;
   color: #555;
   /* float: left; */
+}
+
+.button-logout:hover,
+.button-logout:focus {
+  background-color: red;
 }
 
 .alert {
