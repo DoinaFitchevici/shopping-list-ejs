@@ -1,23 +1,28 @@
 <nav class="navbar">
-    <div class="container">
-    <a href="/" class="navbar-brand">Shopping List App</a>
-    <ul class="navbar-nav">
-<% if (user) { %>
-   <p>Welcome <%= user.name %>!</p>
-   <li class="nav-item"><a href="/cart" class="nav-link">Cart</a></li>
-          <li class="nav-item"><a href="/shoppingList" class="nav-link">Shopping List</a></li>
-          <li class="nav-item"><a href="/products" class="nav-link">Products List</a></li>
-          <li class="nav-item">
-            <form method="POST" action="/sessions/logoff" class="nav-link">
-              <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-              <button type="submit" class="button">Logoff</button>
-            </form>
-          </li>
-        <% } else { %>
-          <li class="nav-item"><a href="/sessions/logon" class="nav-link">Logon</a></li>
-          <li class="nav-item"><a href="/sessions/register" class="nav-link">Register</a></li>
-        <% } %>
-      </ul>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">Your new BlushMate!</a>
     </div>
+     <div class="nav-content">
+        <% if (user) { %>
+      <p class="welcome-message">Welcome <%= user.name %>!</p>
+      <% } %>
+      <ul class="navbar-nav">
+        <% if (user) { %>
+        <li class="nav-item"><a href="/cart" class="nav-link">Cart</a></li>
+        <li class="nav-item"><a href="/shoppingList" class="nav-link">Shopping List</a></li>
+        <li class="nav-item"><a href="/products" class="nav-link">Products List</a></li>
+        <li class="nav-item">
+          <form method="POST" action="/sessions/logoff" class="nav-link">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            <button type="submit" class="button">Logoff</button>
+          </form>
+        </li>
+    <% } else { %>
+      <li class="nav-item"><a href="/sessions/logon" class="nav-link">Logon</a></li>
+      <li class="nav-item"><a href="/sessions/register" class="nav-link">Register</a></li>
+        <% } %>
+    </ul>
+</div>
+</div>
 </nav>
-

@@ -20,11 +20,20 @@ h1 {
   background-color: #ffe3e3;
   color: black;
   padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .container {
-  width: 80%;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.navbar-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .navbar-brand {
@@ -33,15 +42,32 @@ h1 {
   text-decoration: none;
 }
 
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: purple;
+  text-decoration: none;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* flex-grow: 1; */
+}
+
 .navbar-nav {
   list-style: none;
   padding: 0;
   display: flex;
   gap: 15px;
+  align-items: center;
+  margin: 0;
+  margin-right: auto;
 }
 
 .nav-item {
   margin: 0;
+  margin-right: 30px;
 }
 
 .nav-link {
@@ -55,13 +81,11 @@ h1 {
   text-decoration: none;
 }
 
-.nav-button {
-  background: none;
-  border: none;
-  color: black;
-  cursor: pointer;
-  padding: 0;
-  font: inherit;
+.welcome-message {
+  margin-right: 20px;
+  font-size: 16px;
+  color: #555; /* Adjust color as needed */
+  /* float: left; */
 }
 
 .alert {
@@ -250,6 +274,7 @@ button:focus {
   font-weight: 100;
   font-variant: normal;
   background-color: #ffe3e3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: black;
   text-align: center;
   padding: 10px 0;
