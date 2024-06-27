@@ -22,9 +22,9 @@
             <span class="quantity">$<%= product.price.toFixed(2)  %></span>
           </div>
         <div class="delete-button">
-            <a href="/products/edit/<%= product._id %>"><button type="submit" class="button">Edit</button></a>
+            <a href="/products/edit/<%= product._id %>"><button type="submit" class="button"><i class="fas fa-edit"></i></button></a>
             <form method="POST" action="/products/delete/<%= product._id %>" style="display: inline">
-              <button type="submit" class="button">Delete</button>
+              <button type="submit" class="button"><i class="fas fa-trash-alt"></i></button>
               <input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>
         </div>

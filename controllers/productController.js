@@ -6,7 +6,7 @@ const getProducts = async (req, res) => {
   }
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = 10;
+    const limit = 8;
 
     let products = await Product.find()
       .skip((page - 1) * limit)
