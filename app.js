@@ -196,7 +196,7 @@ app.use(xss());
 app.use(
   rateLimiter({
     windowMs: 15 * 60 * 1000,
-    limit: 100,
+    limit: 200,
   })
 );
 
