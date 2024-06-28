@@ -49,7 +49,7 @@ const addProduct = async (req, res) => {
     return res.redirect("/sessions/logon");
   }
   try {
-    const { name, price, description, isActive, tags } = req.body;
+    const { name, price, description, isActive, tags, createdBy } = req.body;
     const formattedPrice = parseFloat(price).toFixed(2);
     const selectedTags = Array.isArray(tags) ? tags : [tags];
 
@@ -65,7 +65,7 @@ const addProduct = async (req, res) => {
     res.redirect("/products");
   } catch (error) {
     console.error("Error adding product:", error);
-    req.flash("error", "Error adding product.");
+    req.flash("error", "Product name must be at least 3 characters long.");
     res.redirect("/products/new");
   }
 };
@@ -118,7 +118,7 @@ const deleteProduct = async (req, res) => {
     if (!deletedProduct) {
       req.flash("error", "Product not found.");
     } else {
-      req.flash("info", "Product deleted successfully.");
+      req.flash("success", "Product deleted successfully.");
     }
     res.redirect("/products");
   } catch (error) {

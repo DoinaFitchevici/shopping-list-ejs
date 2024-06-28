@@ -75,10 +75,9 @@ const addToCart = async (req, res) => {
       cart.products.push({ product: productId, quantity });
     }
     await cart.save();
-    req.flash("info", "Product added to cart.");
+    req.flash("success", "Product added to cart.");
     res.redirect("/cart?page=1");
   } catch (error) {
-    //res.status(500).send("Server Error");
     console.error("Error adding to cart:", error);
     req.flash("error", "Could not add product to cart.");
     res.redirect("/cart/new");
@@ -96,7 +95,7 @@ const deleteFromCart = async (req, res) => {
       (product) => product.product.toString() !== productId
     );
     await cart.save();
-    req.flash("info", "Product removed from cart.");
+    req.flash("success", "Product removed from cart.");
     res.redirect("/cart");
   } catch (error) {
     res.status(500).send("Server Error");
