@@ -49,12 +49,16 @@ const addProduct = async (req, res) => {
     return res.redirect("/sessions/logon");
   }
   try {
-    const { name, price } = req.body;
+    const { name, price, description, isActive, tags } = req.body;
     const formattedPrice = parseFloat(price).toFixed(2);
-    console.log("Form Data:", { name, formattedPrice });
+    const selectedTags = Array.isArray(tags) ? tags : [tags];
+
     await Product.create({
       name,
       price: formattedPrice,
+      description,
+      isActive: isActive === "on",
+      tags: selectedTags,
       createdBy: req.user._id,
     });
     req.flash("success", "Product added successfully!");
@@ -85,8 +89,15 @@ const updateProduct = async (req, res) => {
     return res.redirect("/sessions/logon");
   }
   try {
-    const { name, price } = req.body;
-    await Product.findByIdAndUpdate(req.params.id, { name, price });
+    const { name, price, description, isActive, tags } = req.body;
+    const selectedTags = Array.isArray(tags) ? tags : [tags];
+    await Product.findByIdAndUpdate(req.params.id, {
+      name,
+      price: parseFloat(price).toFixed(2),
+      description,
+      isActive: isActive === "on",
+      tags: selectedTags,
+    });
     req.flash("success", "Product updated successfully!");
     res.redirect("/products");
   } catch (error) {

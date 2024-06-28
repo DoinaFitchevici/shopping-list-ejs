@@ -1,4 +1,4 @@
-<%- include("../partials/head.ejs", { title: "Products" }) %>
+<!-- <%- include("../partials/head.ejs", { title: "Products" }) %>
 <%- include("../partials/header.ejs") %>
 <%- include("../partials/messages.ejs") %>
 
@@ -20,6 +20,9 @@
         <div class="item-info">
          <span><%= product.name %></span>
             <span class="quantity">$<%= product.price.toFixed(2)  %></span>
+            <span><%= product.description %></span>
+            <span><%= product.isActive ? 'Available' : 'Out-of-Stock' %></span>
+            <span>Tags: <%= product.tags.join(', ') %></span>
           </div>
         <div class="delete-button">
             <a href="/products/edit/<%= product._id %>"><button type="submit" class="button"><i class="fas fa-edit"></i></button></a>
@@ -37,6 +40,72 @@
 </ul>
 </div>
 
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <% for(let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= page === i ? 'active' : '' %>">
+        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+      </li>
+    <% } %>
+  </ul>
+</nav>
+
+<%- include("../partials/footer.ejs") %> -->
+
+<%- include("../partials/head.ejs", { title: "Products" }) %>
+<%- include("../partials/header.ejs") %>
+<%- include("../partials/messages.ejs") %>
+
+<h1>Products List</h1>
+
+<div id="cart-list" class="list-group">
+  <div class="add-to-list">
+    <a href="/products?sort=name"><button type="submit" class="button">Name (A-Z)</button></a> 
+    <a href="/products?sort=pricelow"><button type="submit" class="button">Price (Low to High)</button></a>
+    <a href="/products?sort=pricehigh"><button type="submit" class="button">Price (High to Low)</button></a>
+  </div>
+  <div class="add-to-list">
+    <a href="/products/new"><button type="submit" class="button">Add New Product</button></a>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Active</th>
+        <th>Tags</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (products.length > 0) { %>
+        <% products.forEach(product => { %>
+          <tr>
+            <td><%= product.name %></td>
+            <td>$<%= product.price.toFixed(2) %></td>
+            <td><%= product.description %></td>
+            <td><%= product.isActive ? 'Available' : 'Out-of-Stock' %></td>
+            <td><%= product.tags.join(', ') %></td>
+            <td>
+              <a href="/products/edit/<%= product._id %>"><button type="submit" class="button"><i class="fas fa-edit"></i></button></a>
+              <form method="POST" action="/products/delete/<%= product._id %>" style="display: inline">
+                <button type="submit" class="button"><i class="fas fa-trash-alt"></i></button>
+                <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" class="text-center">No products found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
 
 <nav aria-label="Page navigation">
   <ul class="pagination">
