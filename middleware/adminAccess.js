@@ -1,9 +1,10 @@
-const auth = (req, res, next) => {
+const adminAccessMiddleware = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
   } else {
-    res.status(403).send("Unauthorized access. Must be admin.");
+    req.flash("error", "Unauthorized access. Must be admin.");
+    res.redirect("/");
   }
 };
 
-module.exports = auth;
+module.exports = adminAccessMiddleware;

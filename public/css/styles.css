@@ -141,7 +141,7 @@ h1 {
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  bottom: 115%; /* Position the tooltip above the link */
+  bottom: 115%;
   left: 50%;
   margin-left: -60px;
   transition: opacity 0.3s;
@@ -156,7 +156,6 @@ h1 {
   margin-right: 20px;
   font-size: 16px;
   color: #555;
-  /* float: left; */
 }
 
 .button-logout:hover,
@@ -164,21 +163,35 @@ h1 {
   background-color: red;
 }
 
+.flash-messages {
+  position: fixed;
+  left: 250px;
+  transform: translateX(-50%);
+  width: 30%;
+  max-width: 800px;
+  z-index: 1000;
+  margin-top: 100px;
+  text-align: left;
+}
+
 .alert {
   margin: 20px auto;
   width: 80%;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
 
 .alert-success {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #dff0d8;
+  color: #3c763d;
+  border-color: #d6e9c6;
 }
 
 .alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #f2dede;
+  color: #a94442;
+  border-color: #ebccd1;
 }
 
 .pagination {
@@ -312,19 +325,19 @@ button:focus {
 
 .table {
   width: 100%;
-  table-layout: fixed; /* Ensures that columns are equally spaced */
+  table-layout: fixed;
 }
 
 .table th,
 .table td {
   text-align: left;
   padding: 8px;
-  /* Optional: to ensure equal width for each column */
-  width: calc(100% / 6); /* Assuming you have 6 columns */
+
+  width: calc(100% / 6);
 }
 
 .table th {
-  background-color: #f2f2f2; /* Optional: background color for the header */
+  background-color: #f2f2f2;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -371,7 +384,4 @@ button:focus {
   transition: fill 0.3s ease;
   margin-right: 20px;
   margin-left: 10px;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }

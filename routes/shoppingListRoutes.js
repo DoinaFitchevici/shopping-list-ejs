@@ -4,7 +4,7 @@ const shoppingListController = require("../controllers/shoppingListController");
 const router = express.Router();
 
 router.get("/", shoppingListController.getShoppingList);
-router.get("/add", shoppingListController.getAddItemForm); // New route to display add item form
+router.get("/add", shoppingListController.getAddItemForm);
 router.post("/add", shoppingListController.addToShoppingList);
 router.post(
   "/delete/:productId",
