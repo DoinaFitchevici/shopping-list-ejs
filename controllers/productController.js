@@ -53,6 +53,14 @@ const addProduct = async (req, res) => {
     const formattedPrice = parseFloat(price).toFixed(2);
     const selectedTags = Array.isArray(tags) ? tags : [tags];
 
+    if (parseFloat(price) <= 0) {
+      throw new Error("Price must be a positive number.");
+    }
+
+    if (name.length < 3) {
+      throw new Error("Product name must be at least 3 characters long.");
+    }
+
     await Product.create({
       name,
       price: formattedPrice,
@@ -65,7 +73,7 @@ const addProduct = async (req, res) => {
     res.redirect("/products");
   } catch (error) {
     console.error("Error adding product:", error);
-    req.flash("error", "Product name must be at least 3 characters long.");
+    req.flash("error", error.message || "Failed to add product.");
     res.redirect("/products/new");
   }
 };
@@ -91,6 +99,15 @@ const updateProduct = async (req, res) => {
   try {
     const { name, price, description, isActive, tags } = req.body;
     const selectedTags = Array.isArray(tags) ? tags : [tags];
+
+    if (parseFloat(price) <= 0) {
+      throw new Error("Price must be a positive number.");
+    }
+
+    if (name.length < 3) {
+      throw new Error("Product name must be at least 3 characters long.");
+    }
+
     await Product.findByIdAndUpdate(req.params.id, {
       name,
       price: parseFloat(price).toFixed(2),
@@ -102,7 +119,7 @@ const updateProduct = async (req, res) => {
     res.redirect("/products");
   } catch (error) {
     console.error("Error updating product:", error);
-    req.flash("error", "Error updating product.");
+    req.flash("error", error.message || "Failed to update product.");
     res.redirect(`/products/edit/${req.params.id}`);
   }
 };
