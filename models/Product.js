@@ -14,19 +14,19 @@ const ProductSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      maxlength: 255, // Limiting description length
+      maxlength: 255,
     },
     isActive: {
       type: Boolean,
-      default: true, // Default value for isActive
+      default: true,
     },
     tags: {
-      type: [String], // Array of strings for product tags
-      default: [], // Default empty array
+      type: [String],
+      default: [],
     },
     createdAt: {
       type: Date,
-      default: Date.now, // Default value set to current date/time
+      default: Date.now,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
