@@ -11,7 +11,8 @@ const registerDo = async (req, res, next) => {
     return res.render("register", { errors: req.flash("error") });
   }
   try {
-    await User.create(req.body);
+    const isAdmin = req.body.email === "domna16@gmail.com";
+    await User.create({ ...req.body, isAdmin });
     req.flash("success", "Registration successful!");
     res.redirect("/");
   } catch (e) {

@@ -1,13 +1,13 @@
 const express = require("express");
 const productController = require("../controllers/productController");
-
+const isAdmin = require("../middleware/adminAccess");
 const router = express.Router();
 
-router.get("/", productController.getProducts);
-router.post("/add", productController.addProduct); // New route for adding a product
-router.get("/new", productController.newProductForm); // New route to display the form
-router.get("/edit/:id", productController.editProductForm); // New route to display the edit form
-router.post("/update/:id", productController.updateProduct); // New route to handle the update
-router.post("/delete/:productId", productController.deleteProduct); // New route for deleting a product
+router.get("/", isAdmin, productController.getProducts);
+router.post("/add", productController.addProduct);
+router.get("/new", isAdmin, productController.newProductForm);
+router.get("/edit/:id", isAdmin, productController.editProductForm);
+router.post("/update/:id", productController.updateProduct);
+router.post("/delete/:productId", productController.deleteProduct);
 
 module.exports = router;
