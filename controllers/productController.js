@@ -6,7 +6,7 @@ const getProducts = async (req, res) => {
   }
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = 10;
+    const limit = 8;
 
     let products = await Product.find()
       .skip((page - 1) * limit)
@@ -49,19 +49,31 @@ const addProduct = async (req, res) => {
     return res.redirect("/sessions/logon");
   }
   try {
-    const { name, price } = req.body;
+    const { name, price, description, isActive, tags, createdBy } = req.body;
     const formattedPrice = parseFloat(price).toFixed(2);
-    console.log("Form Data:", { name, formattedPrice });
+    const selectedTags = Array.isArray(tags) ? tags : [tags];
+
+    if (parseFloat(price) <= 0) {
+      throw new Error("Price must be a positive number.");
+    }
+
+    if (name.length < 3) {
+      throw new Error("Product name must be at least 3 characters long.");
+    }
+
     await Product.create({
       name,
       price: formattedPrice,
+      description,
+      isActive: isActive === "on",
+      tags: selectedTags,
       createdBy: req.user._id,
     });
     req.flash("success", "Product added successfully!");
     res.redirect("/products");
   } catch (error) {
     console.error("Error adding product:", error);
-    req.flash("error", "Error adding product.");
+    req.flash("error", error.message || "Failed to add product.");
     res.redirect("/products/new");
   }
 };
@@ -85,13 +97,29 @@ const updateProduct = async (req, res) => {
     return res.redirect("/sessions/logon");
   }
   try {
-    const { name, price } = req.body;
-    await Product.findByIdAndUpdate(req.params.id, { name, price });
+    const { name, price, description, isActive, tags } = req.body;
+    const selectedTags = Array.isArray(tags) ? tags : [tags];
+
+    if (parseFloat(price) <= 0) {
+      throw new Error("Price must be a positive number.");
+    }
+
+    if (name.length < 3) {
+      throw new Error("Product name must be at least 3 characters long.");
+    }
+
+    await Product.findByIdAndUpdate(req.params.id, {
+      name,
+      price: parseFloat(price).toFixed(2),
+      description,
+      isActive: isActive === "on",
+      tags: selectedTags,
+    });
     req.flash("success", "Product updated successfully!");
     res.redirect("/products");
   } catch (error) {
     console.error("Error updating product:", error);
-    req.flash("error", "Error updating product.");
+    req.flash("error", error.message || "Failed to update product.");
     res.redirect(`/products/edit/${req.params.id}`);
   }
 };
@@ -107,7 +135,7 @@ const deleteProduct = async (req, res) => {
     if (!deletedProduct) {
       req.flash("error", "Product not found.");
     } else {
-      req.flash("info", "Product deleted successfully.");
+      req.flash("success", "Product deleted successfully.");
     }
     res.redirect("/products");
   } catch (error) {

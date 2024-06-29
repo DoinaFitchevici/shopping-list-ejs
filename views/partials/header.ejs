@@ -1,23 +1,28 @@
 <nav class="navbar">
-    <div class="container">
-    <a href="/" class="navbar-brand">Shopping List App</a>
-    <ul class="navbar-nav">
-<% if (user) { %>
-   <p>Welcome <%= user.name %>!</p>
-   <li class="nav-item"><a href="/cart" class="nav-link">Cart</a></li>
-          <li class="nav-item"><a href="/shoppingList" class="nav-link">Shopping List</a></li>
-          <li class="nav-item"><a href="/products" class="nav-link">Products List</a></li>
-          <li class="nav-item">
-            <form method="POST" action="/sessions/logoff" class="nav-link">
-              <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-              <button type="submit" class="button">Logoff</button>
-            </form>
-          </li>
-        <% } else { %>
-          <li class="nav-item"><a href="/sessions/logon" class="nav-link">Logon</a></li>
-          <li class="nav-item"><a href="/sessions/register" class="nav-link">Register</a></li>
-        <% } %>
-      </ul>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">Your Shopping BlushMate!</a>
     </div>
+     <div class="nav-content">
+        <% if (user) { %>
+      <p class="welcome-message">Welcome <%= user.name %>!</p>
+      <% } %>
+      <ul class="navbar-nav">
+        <% if (user) { %>
+        <li class="nav-item"><a href="/cart" class="nav-link" title="Cart"><i class="fas fa-shopping-cart"></i><span class="tooltip-text">Cart</span></a></li>
+        <li class="nav-item"><a href="/shoppingList" class="nav-link"><i class="fas fa-list-alt"></i><span class="tooltip-text">Shopping List</span></a></li>
+        <li class="nav-item"><a href="/products" class="nav-link"><i class="fas fa-th-list"></i><span class="tooltip-text">Products</span></a></li>
+        <li class="nav-item">
+          <form method="POST" action="/sessions/logoff" class="nav-link">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            <button type="submit" class="button button-logout">Logoff</button>
+          </form>
+        </li>
+    <% } else { %>
+      <li class="nav-item"><a href="/sessions/logon" class="nav-link"><i class="fas fa-sign-in-alt"></i><span class="tooltip-text">Logon</span></a></li>
+      <li class="nav-item"><a href="/sessions/register" class="nav-link"><i class="fas fa-user-plus"></i><span class="tooltip-text">Register</span></a></li>
+        <% } %>
+    </ul>
+</div>
+</div>
 </nav>
-

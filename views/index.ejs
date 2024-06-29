@@ -1,17 +1,19 @@
-<div class="body">
+
 <%- include("partials/head.ejs", { title: "Home" }) %>
+<div class="landing-page">
 <%- include("partials/header.ejs") %>
 <%- include("partials/messages.ejs") %>
 
-
+<div class="button-container">
 <% if (user) { %>
-    <a href="/cart">Click this link to view your cart.</a>
-    <a href="/shoppingList">Click this link to view your shopping list.</a>
-    <a href="/products">Click this link to view your products list.</a>
+    <a href="/cart" class="button-landing-page">Your cart</a>
+    <a href="/shoppingList" class="button-landing-page">Your shopping list</a>
+    <a href="/products" class="button-landing-page">Products list</a>
 <% } else { %>
-    <a href="/sessions/logon">Click this link to logon.</a>
-    <a href="/sessions/register">Click this link to register.</a>
+    <a href="/sessions/logon" class="button-landing-page">Logon</a>
+    <a href="/sessions/register" class="button-landing-page">Register</a>
+  
 <% } %>
-
+</div>
 <%- include("partials/footer.ejs") %>
 </div>
