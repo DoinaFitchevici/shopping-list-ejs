@@ -7,6 +7,5 @@ router.get("/", shoppingCartController.getCart);
 router.get("/add", shoppingCartController.getAddItemForm);
 router.post("/add", shoppingCartController.addToCart);
 router.post("/delete/:productId", shoppingCartController.deleteFromCart);
-router.post("/mark-done/:productId", shoppingCartController.markItemDone);
 
 module.exports = router;

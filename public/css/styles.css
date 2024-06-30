@@ -165,7 +165,7 @@ h1 {
 
 .flash-messages {
   position: fixed;
-  left: 150px;
+  left: 220px;
   transform: translateX(-50%);
   width: 30%;
   max-width: 800px;

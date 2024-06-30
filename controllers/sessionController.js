@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const parseVErr = require("../utils/parseValidationErrs");
+const parseValidationErrors = require("../utils/parseValidationErrs");
 
 const registerShow = (req, res) => {
   res.render("register");
@@ -17,7 +17,7 @@ const registerDo = async (req, res, next) => {
     res.redirect("/");
   } catch (e) {
     if (e.constructor.name === "ValidationError") {
-      parseVErr(e, req);
+      parseValidationErrors(e, req);
     } else if (e.name === "MongoServerError" && e.code === 11000) {
       req.flash("error", "That email address is already registered.");
     } else {

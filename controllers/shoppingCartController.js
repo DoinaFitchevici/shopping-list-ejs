@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const ShoppingCart = require("../models/ShoppingCart");
+const parseValidationErrors = require("../utils/parseValidationErrs");
 
 const getCart = async (req, res) => {
   if (!req.user) {
@@ -79,7 +80,11 @@ const addToCart = async (req, res) => {
     res.redirect("/cart?page=1");
   } catch (error) {
     console.error("Error adding to cart:", error);
-    req.flash("error", "Could not add product to cart.");
+    if (error.constructor.name === "ValidationError") {
+      parseValidationErrors(error, req);
+    } else {
+      req.flash("error", error.message || "Could not add product to cart.");
+    }
     res.redirect("/cart/new");
   }
 };
@@ -98,32 +103,9 @@ const deleteFromCart = async (req, res) => {
     req.flash("success", "Product removed from cart.");
     res.redirect("/cart");
   } catch (error) {
-    res.status(500).send("Server Error");
-  }
-};
-
-const markItemDone = async (req, res) => {
-  if (!req.user) {
-    return res.redirect("/sessions/logon");
-  }
-  const productId = req.params.productId;
-  const { done } = req.body;
-
-  try {
-    const cart = await ShoppingCart.findOne({ user: req.user._id });
-    const product = cart.products.find((item) =>
-      item.product.equals(productId)
-    );
-
-    if (product) {
-      product.done = done;
-      await cart.save();
-      res.status(200).send({ success: true });
-    } else {
-      res.status(404).send({ error: "Product not found in cart" });
-    }
-  } catch (error) {
-    res.status(500).send({ error: "An error occurred" });
+    console.error("Error removing from cart:", error);
+    req.flash("error", "Could not remove product from cart.");
+    res.redirect("/cart");
   }
 };
 
@@ -132,5 +114,4 @@ module.exports = {
   getAddItemForm,
   addToCart,
   deleteFromCart,
-  markItemDone,
 };
