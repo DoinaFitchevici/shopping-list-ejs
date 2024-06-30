@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const ShoppingList = require("../models/ShoppingList");
+const parseValidationErrors = require("../utils/parseValidationErrs");
 
 const getShoppingList = async (req, res) => {
   if (!req.user) {
@@ -75,12 +76,19 @@ const addToShoppingList = async (req, res) => {
       shoppingList.products.push({ product: productId, quantity });
     }
     await shoppingList.save();
-    req.flash("info", "Product added to shopping list.");
+    req.flash("success", "Product added to shopping list.");
+    console.log("success", "Product added to shopping list.");
     res.redirect("/shoppingList?page=1");
   } catch (error) {
-    //res.status(500).send("Server Error");
     console.error("Error adding to shopping list:", error);
-    req.flash("error", "Could not add product to shopping list.");
+    if (error.constructor.name === "ValidationError") {
+      parseValidationErrors(error, req);
+    } else {
+      req.flash(
+        "error",
+        error.message || "Could not add product to shopping list."
+      );
+    }
     res.redirect("/shoppingList/new");
   }
 };
@@ -96,10 +104,12 @@ const deleteFromShoppingList = async (req, res) => {
       (product) => product.product.toString() !== productId
     );
     await shoppingList.save();
-    req.flash("info", "Product removed from shopping list.");
+    req.flash("success", "Product removed from shopping list.");
     res.redirect("/shoppingList");
   } catch (error) {
-    res.status(500).send("Server Error");
+    console.error("Error removing from shopping list:", error);
+    req.flash("error", "Could not remove product from shopping list.");
+    res.redirect("/shoppingList");
   }
 };
 
@@ -119,13 +129,16 @@ const markItemDone = async (req, res) => {
       product.done = true;
       await shoppingList.save();
       const shoppingList2 = await ShoppingList.findOne({ user: req.user._id });
-      console.log(shoppingList2);
+      req.flash("success", "Product marked as done.");
       res.redirect("/shoppingList");
     } else {
-      res.status(404).send({ error: "Product not found in shopping list" });
+      req.flash("error", "Product not found in shopping list.");
+      res.redirect("/shoppingList");
     }
   } catch (error) {
-    res.status(500).send({ error: "An error occurred" });
+    console.error("Error marking product as done:", error);
+    req.flash("error", "An error occurred while marking the product as done.");
+    res.redirect("/shoppingList");
   }
 };
 

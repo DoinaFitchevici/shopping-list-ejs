@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const parseValidationErrors = require("../utils/parseValidationErrs");
 
 const getProducts = async (req, res) => {
   if (!req.user) {
@@ -73,7 +74,11 @@ const addProduct = async (req, res) => {
     res.redirect("/products");
   } catch (error) {
     console.error("Error adding product:", error);
-    req.flash("error", error.message || "Failed to add product.");
+    if (error.constructor.name === "ValidationError") {
+      parseValidationErrors(error, req);
+    } else {
+      req.flash("error", error.message || "Failed to add product.");
+    }
     res.redirect("/products/new");
   }
 };
@@ -119,7 +124,11 @@ const updateProduct = async (req, res) => {
     res.redirect("/products");
   } catch (error) {
     console.error("Error updating product:", error);
-    req.flash("error", error.message || "Failed to update product.");
+    if (error.constructor.name === "ValidationError") {
+      parseValidationErrors(error, req);
+    } else {
+      req.flash("error", error.message || "Failed to update product.");
+    }
     res.redirect(`/products/edit/${req.params.id}`);
   }
 };
