@@ -1,4 +1,4 @@
-const Product = require("../models/product");
+const Product = require("../models/Product");
 const ShoppingCart = require("../models/ShoppingCart");
 const parseValidationErrors = require("../utils/parseValidationErrs");
 
