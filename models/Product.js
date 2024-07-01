@@ -1,5 +1,42 @@
 const mongoose = require("mongoose");
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       required:
+ *         - name
+ *         - price
+ *         - createdBy
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: The product name
+ *         price:
+ *           type: number
+ *           description: The product price
+ *         description:
+ *           type: string
+ *           description: The product description
+ *         isActive:
+ *           type: boolean
+ *           description: Whether the product is active
+ *         tags:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: The product tags
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The product creation date
+ *         createdBy:
+ *           type: string
+ *           description: The user who created the product
+ */
+
 const ProductSchema = new mongoose.Schema(
   {
     name: {

@@ -14,6 +14,8 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
 const path = require("path");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpecs = require("./swaggerConfig");
 
 const app = express();
 
@@ -112,6 +114,9 @@ app.use(
 );
 app.use("/cart", auth, require("./routes/cartRoutes"));
 app.use("/shoppingList", auth, require("./routes/shoppingListRoutes"));
+
+// Swagger documentation route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use((err, req, res, next) => {
   if (err.code === "EBADCSRFTOKEN") {
